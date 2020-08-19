@@ -1,0 +1,109 @@
+env:
+    num_candidates: 100
+    num_episode: 1000
+    num_epoch_per_episode: 60
+    datasize: 50000
+    train_num: 20000
+    val_num: 5000
+    num_stages: 40
+    num_warmup_stages: 5
+    data: "your_data_root/cifar"
+    start_point: 0
+    total_iters: null
+
+    use_linklink_test: False
+    val_batch_size: 64
+    print_freq: 10
+    eval_freq: 100
+    val_print_freq: 50
+    log_dir: './logs_cifar100_noise'
+    save_dir: "./model_save_cifar100_noise"
+    save_interval: 1 # one episode
+    model_load_path: null
+    loss_reduction: 'none'
+
+    reward:
+        reward_option: "sub_reference_model"   # sub_no, sub_baseline, sub_pre, sub_reference_model
+        filter_loss_rate: 0.0
+        acc_rate: 1.0
+        loss_gap_rate: 0.0
+        action_norm_rate: 0.0
+        reward_weight: True
+        reward_wk: 5.
+        reward_scale: 2.
+
+    smooth_rate: 0.8
+    label_noise: 0.4
+
+    use_feature_model: False
+    imbalance: False
+    num_small_number: 200 # using with use_label
+    num_small_label: 2
+
+    features:
+        use_logits: False
+        use_loss_norm: True
+        use_loss_abs: False
+        use_loss: False
+        use_entropy: True
+        entropy_norm: True
+        use_item_similarity: False
+        use_label: False
+        use_feature_model: False
+
+    learn_lr_gain: False
+    dataset: 'cifar100'
+    model:
+        arch: wrn
+        kwargs:
+            num_classes: 100
+            depth: 28
+
+    e_learning_rate: 0.1
+    momentum: 0.9
+    weight_decay: 0.0005
+    workers: 4
+    lr_stages: [30, 35] # 学习率下降stage step
+
+    baseline:
+        baseline_out: False
+        b_tau: 0.1
+        baseline_in: null
+
+
+agent:
+    ddpg:
+        # for learning
+        a_learning_rate: 0.00001
+        c_learning_rate: 0.001
+        actor_init_scale: 0.05
+        policy_batch_size: 32
+        tau: 0.001
+        discount: 0.99
+        max_grad_norm: 5
+        test_actor_step: 5
+
+        # replay buffer size
+        buffer_size: 500
+        update_full: True
+        update_full_epoch: 8
+
+        # for explore
+        epsilon: 0.5
+        decay_epsilon: 0.0002 #1.0 / 5000
+        ou_theta: 0.15
+        ou_mu: 0
+        ou_sigma: 0.2
+        explore_prob: 0.3
+
+        step_embedding_dim: 16
+        other_state_dim: 3
+
+        num_node: 1
+        weight_option: 'add_weight'  # classify or add_weight
+
+        actor_net_width: 256
+        critic_net_width: 256
+
+        weight_decay: 0.00001
+        actor_norm_rate: 0.001
